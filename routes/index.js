@@ -24,6 +24,11 @@ router.get('/', function(req, res, next) {
                             path: req.query.url.substring(req.query.url.indexOf('/'))
                         };
 
+                        if (options.host == "") {
+                            options.host = options.path;
+                            options.path = "/";
+                        }
+
                         var processPage = function (page) {
                             citation.text = page;
                             res.render('index', {login: login, citation: citation});
@@ -41,30 +46,24 @@ router.get('/', function(req, res, next) {
                             })
                         };
 
-                        if (prefix !== undefined && prefix !== null) {
-                            if (prefix[0] === "https://") {
-                                options.port = 443;
-                                https.get(options, function (result) {
-                                    processResult(result);
-                                }).on('error', function (e) {
-                                    citation.valid = false;
-                                    citation.error = "Error loading page.";
-                                    res.render('index', {login: login, citation: citation});
-                                });
-                            } else {
-                                options.port = 80;
-                                http.get(options, function (result) {
-                                    processResult(result);
-                                }).on('error', function (e) {
-                                    citation.valid = false;
-                                    citation.error = "Error loading page.";
-                                    res.render('index', {login: login, citation: citation});
-                                });
-                            }
+                        if (prefix !== undefined && prefix !== null && prefix[0] === "https://") {
+                            options.port = 443;
+                            https.get(options, function (result) {
+                                processResult(result);
+                            }).on('error', function (e) {
+                                citation.valid = false;
+                                citation.error = "Couldn't load page, verify URL.";
+                                res.render('index', {login: login, citation: citation});
+                            });
                         } else {
-                            citation.valid = false;
-                            citation.error = "Error processing URL.";
-                            res.render('index', {login: login, citation: citation});
+                            options.port = 80;
+                            http.get(options, function (result) {
+                                processResult(result);
+                            }).on('error', function (e) {
+                                citation.valid = false;
+                                citation.error = "Couldn't load page, verify URL.";
+                                res.render('index', {login: login, citation: citation});
+                            });
                         }
                     } else {
                         res.render('index', {login: login, citation: null});
