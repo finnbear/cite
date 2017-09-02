@@ -13,57 +13,61 @@ router.get('/', function(req, res, next) {
             if (loginId) {
                 database.getLoginName(loginId, function(name) {
                     var login = {id: loginId, name: name};
-                    if (req.query.url) {
+                    if (req.query.stage && req.query.url) {
                         var citation = {url: req.query.url, valid: true};
+                        if (req.query.stage == "url") {
+                            var prefix = req.query.url.match(/.*?:\/\//g);
+                            req.query.url = req.query.url.replace(/.*?:\/\//g, "");
 
-                        var prefix = req.query.url.match(/.*?:\/\//g);
-                        req.query.url = req.query.url.replace(/.*?:\/\//g, "");
+                            var options = {
+                                host: req.query.url.substring(0, req.query.url.indexOf('/')),
+                                path: req.query.url.substring(req.query.url.indexOf('/'))
+                            };
 
-                        var options = {
-                            host: req.query.url.substring(0, req.query.url.indexOf('/')),
-                            path: req.query.url.substring(req.query.url.indexOf('/'))
-                        };
+                            if (options.host == "") {
+                                options.host = options.path;
+                                options.path = "/";
+                            }
 
-                        if (options.host == "") {
-                            options.host = options.path;
-                            options.path = "/";
-                        }
-
-                        var processPage = function (page) {
-                            citation.text = page;
-                            res.render('index', {login: login, citation: citation});
-                        };
-
-                        var processResult = function (result) {
-                            var data = "";
-
-                            result.on("data", function (chunk) {
-                                data += chunk;
-                            });
-
-                            result.on("end", function (chunk) {
-                                processPage(data);
-                            })
-                        };
-
-                        if (prefix !== undefined && prefix !== null && prefix[0] === "https://") {
-                            options.port = 443;
-                            https.get(options, function (result) {
-                                processResult(result);
-                            }).on('error', function (e) {
-                                citation.valid = false;
-                                citation.error = "loadurl";
+                            var processPage = function (page) {
+                                citation.text = page;
                                 res.render('index', {login: login, citation: citation});
-                            });
-                        } else {
-                            options.port = 80;
-                            http.get(options, function (result) {
-                                processResult(result);
-                            }).on('error', function (e) {
-                                citation.valid = false;
-                                citation.error = "loadurl";
-                                res.render('index', {login: login, citation: citation});
-                            });
+                            };
+
+                            var processResult = function (result) {
+                                var data = "";
+
+                                result.on("data", function (chunk) {
+                                    data += chunk;
+                                });
+
+                                result.on("end", function (chunk) {
+                                    processPage(data);
+                                })
+                            };
+
+                            if (prefix !== undefined && prefix !== null && prefix[0] === "https://") {
+                                options.port = 443;
+                                https.get(options, function (result) {
+                                    processResult(result);
+                                }).on('error', function (e) {
+                                    citation.valid = false;
+                                    citation.error = "loadurl";
+                                    res.render('index', {login: login, citation: citation});
+                                });
+                            } else {
+                                options.port = 80;
+                                http.get(options, function (result) {
+                                    processResult(result);
+                                }).on('error', function (e) {
+                                    citation.valid = false;
+                                    citation.error = "loadurl";
+                                    res.render('index', {login: login, citation: citation});
+                                });
+                            }
+                        } else if (req.query.stage == "final") {
+                            citation.text = "This is your citation.";
+                            res.render('index', {login: login, citation: citation})
                         }
                     } else {
                         res.render('index', {login: login, citation: null});
