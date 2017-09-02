@@ -30,7 +30,6 @@ router.get('/', function(req, res, next) {
                             }
 
                             var processPage = function (page) {
-                                citation.text = page;
                                 res.render('index', {login: login, citation: citation});
                             };
 
