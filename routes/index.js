@@ -52,7 +52,7 @@ router.get('/', function(req, res, next) {
                                 processResult(result);
                             }).on('error', function (e) {
                                 citation.valid = false;
-                                citation.error = "Couldn't load page, verify URL.";
+                                citation.error = "loadurl";
                                 res.render('index', {login: login, citation: citation});
                             });
                         } else {
@@ -61,7 +61,7 @@ router.get('/', function(req, res, next) {
                                 processResult(result);
                             }).on('error', function (e) {
                                 citation.valid = false;
-                                citation.error = "Couldn't load page, verify URL.";
+                                citation.error = "loadurl";
                                 res.render('index', {login: login, citation: citation});
                             });
                         }
