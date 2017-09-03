@@ -8,7 +8,7 @@ block content
                 h2(style="margin-bottom: 20px;") Cite
                 if citation
                     if citation.text
-                        p(style="font-family: TimesNewRoman; font-size: 12px; font-style: normal; font-variant: normal;") #{citation.text}
+                        p(style="font-family: TimesNewRoman; font-size: 12px; font-style: normal; font-variant: normal;")!= citation.text
                         br
                         form(action=".", method="get")
                             button(type="submit", class="btn btn-primary", style="width:85%; margin: auto;") Back
@@ -25,7 +25,7 @@ block content
 
                         form(action=".", method="get")
                             input(type="hidden", name="stage", value="final")
-                            input(type="hidden", name="url", value="#{citation.url}")
+                            input(type="hidden", name="sourceUrl", value="#{citation.url}")
                             div(class="form-group")
                                 input(aria-describedby="sourceAuthorHelp", type="text", name="sourceAuthor", value="#{citation.sourceAuthor}", placeholder="Author", class="form-control", style="width:85%; margin: auto;")
                                 small(id="sourceAuthorHelp" class="form-text text-muted") Last name, first name MI
@@ -33,11 +33,11 @@ block content
                                 input(aria-describedby="sourceTitleHelp", type="text", name="sourceTitle", value="#{citation.sourceTitle}", placeholder="Title", class="form-control", style="width:85%; margin: auto;")
                                 small(id="sourceTitleHelp" class="form-text text-muted") Article name, book name, etc.
                             div(class="form-group")
-                                input(aria-describedby="sourceContainerHelp", type="text", name="sourceContainerTitle", value="#{citation.sourceContainerTitle}", placeholder="Website title", class="form-control", style="width:85%; margin: auto;")
-                                small(id="sourceContainerHelp" class="form-text text-muted") Website name, journal name, etc.
+                                input(aria-describedby="containerTitleHelp", type="text", name="containerTitle", value="#{citation.containerTitle}", placeholder="Website title", class="form-control", style="width:85%; margin: auto;")
+                                small(id="containerTitleHelp" class="form-text text-muted") Website name, journal name, etc.
                             div(class="form-group")
-                                input(aria-describedby="sourcePublisherHelp", type="text", name="sourcePublisher", value="#{citation.sourcePublisher}", placeholder="Publisher / Sponsor", class="form-control", style="width:85%; margin: auto;")
-                                small(id="sourcePublisherHelp" class="form-text text-muted") Company name, sponsor name, etc.
+                                input(aria-describedby="publisherTitleHelp", type="text", name="publisherTitle", value="#{citation.publisherTitle}", placeholder="Publisher / Sponsor", class="form-control", style="width:85%; margin: auto;")
+                                small(id="publisherTitleHelp" class="form-text text-muted") Company name, sponsor name, etc.
                             div(class="form-group")
                                 input(aria-describedby="sourcePublicationDateHelp", type="text", name="sourcePublicationDate", value="#{citation.sourcePublicationDate}", placeholder="Publication date", class="form-control", style="width:85%; margin: auto;")
                                 small(id="sourcePublicationDateHelp" class="form-text text-muted") DD MON. YYYY or YYYY
@@ -48,7 +48,7 @@ block content
                 else
                     form(action=".", method="get")
                         input(type="hidden", name="stage", value="url")
-                        input(type="text", name="url", class="form-control", placeholder="Url", style="width:85%; margin: auto;")
+                        input(type="text", name="sourceUrl", class="form-control", placeholder="Url", style="width:85%; margin: auto;")
                         br
                         button(type="submit", class="btn btn-primary", style="width:85%; margin: auto;") Create citation
         else
@@ -59,7 +59,7 @@ block content
                     br
                     input(type="password", name="password", class="form-control", placeholder="Password", style="width:85%; margin: auto;")
                     br
-                    select(class="form-control", name="account", style="width:85%; margin: auto;")
+                    select(class="form-control custom-select", name="account", style="width:85%; margin: auto; display: inherit;")
                         option(value="existing") Existing account
                         option(value="new") New account
                         option(value="school" disabled) School district account

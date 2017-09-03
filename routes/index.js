@@ -17,15 +17,15 @@ router.get('/', function(req, res, next) {
             if (loginId) {
                 database.getLoginName(loginId, function(name) {
                     var login = {id: loginId, name: name};
-                    if (req.query.stage && req.query.url) {
-                        var citation = {url: req.query.url, valid: true};
+                    if (req.query.stage && req.query.sourceUrl) {
+                        var citation = {url: req.query.sourceUrl, valid: true};
                         if (req.query.stage == "url") {
-                            var prefix = req.query.url.match(/.*?:\/\//g);
-                            req.query.url = req.query.url.replace(/.*?:\/\//g, "");
+                            var prefix = req.query.sourceUrl.match(/.*?:\/\//g);
+                            req.query.sourceUrl = req.query.sourceUrl.replace(/.*?:\/\//g, "");
 
                             var options = {
-                                host: req.query.url.substring(0, req.query.url.indexOf('/')),
-                                path: req.query.url.substring(req.query.url.indexOf('/'))
+                                host: req.query.sourceUrl.substring(0, req.query.sourceUrl.indexOf('/')),
+                                path: req.query.sourceUrl.substring(req.query.sourceUrl.indexOf('/'))
                             };
 
                             if (options.host == "") {
@@ -83,14 +83,14 @@ router.get('/', function(req, res, next) {
                                 var titleSimilarity = similarity(domTitle, options.host.replace("www", "").replace(".com", "").replace(".org", "").replace(".edu", ""));
                                 console.log(titleSimilarity);
                                 if (titleSimilarity >= 0.30) {
-                                    citation.sourceContainerTitle = domTitle;
+                                    citation.containerTitle = domTitle;
                                     citation.sourceTitle = "";
                                 } else {
-                                    citation.sourceContainerTitle = "";
+                                    citation.containerTitle = "";
                                     citation.sourceTitle = domTitle;
                                 }
 
-                                citation.sourcePublisher = "";
+                                citation.publisherTitle = "";
                                 citation.sourcePublicationDate = "";
 
                                 res.render('index', {login: login, citation: citation});
@@ -127,9 +127,14 @@ router.get('/', function(req, res, next) {
                                     res.render('index', {login: login, citation: citation});
                                 });
                             }
-                        } else if (req.query.stage == "final") {
-                            citation.text = "This is your citation.";
-                            res.render('index', {login: login, citation: citation})
+                        } else if (req.query.stage == "final" && req.query.sourceAuthor && req.query.sourceTitle && req.query.containerTitle && req.query.publisherTitle && req.query.sourcePublicationDate) {
+                            database.createCitation(loginId, req.query.sourceUrl, req.query.sourceAuthor, req.query.sourceTitle, req.query.containerTitle, req.query.publisherTitle, req.query.sourcePublicationDate, function(citationId) {
+                                database.formatCitation(citationId, function(citationText) {
+                                    citation.text = citationText;
+
+                                    res.render('index', {login: login, citation: citation});
+                                });
+                            });
                         }
                     } else {
                         res.render('index', {login: login, citation: null});
