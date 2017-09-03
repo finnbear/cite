@@ -2,6 +2,10 @@ var database = require('database');
 
 var http = require('http');
 var https = require('https');
+//var jsdom = require("jsdom");
+//$ = require("jquery")(jsdom.jsdom().defaultView);
+
+var $ = require("jquery")(require('jsdom').jsdom().defaultView);
 
 var express = require('express');
 var router = express.Router();
@@ -30,6 +34,9 @@ router.get('/', function(req, res, next) {
                             }
 
                             var processPage = function (page) {
+                                var dom = $(page);
+                                citation.sourceContainerTitle = dom.find("title").text();
+
                                 res.render('index', {login: login, citation: citation});
                             };
 
