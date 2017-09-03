@@ -18,7 +18,7 @@ var logout = require('./routes/logout');
 
 var app = express();
 
-app.set('trust proxy', 'loopback')
+app.set('trust proxy', true);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
