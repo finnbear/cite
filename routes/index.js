@@ -90,6 +90,9 @@ router.get('/', function(req, res, next) {
                                     citation.sourceTitle = domTitle;
                                 }
 
+                                citation.sourcePublisher = "";
+                                citation.sourcePublicationDate = "";
+
                                 res.render('index', {login: login, citation: citation});
                             };
 

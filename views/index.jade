@@ -4,7 +4,7 @@ block content
     br
     div(style="text-align: center;")
         if login
-            div(style="display: inline-block; max-width: 500px; padding: 15px 30px 30px; margin: auto; background-color: #ffffff; border: 1px solid rgba(0, 0, 0, 0.1);")
+            div(style="display: inline-block; padding: 15px 30px 30px; margin: auto; background-color: #ffffff; border: 1px solid rgba(0, 0, 0, 0.1);")
                 h2(style="margin-bottom: 20px;") Cite
                 if citation
                     if citation.text
@@ -26,16 +26,21 @@ block content
                         form(action=".", method="get")
                             input(type="hidden", name="stage", value="final")
                             input(type="hidden", name="url", value="#{citation.url}")
-                            input(type="text", name="author", value="#{citation.sourceAuthor}", placeholder="Author", class="form-control", style="width:85%; margin: auto;")
-                            br
-                            input(type="text", name="sourceTitle", value="#{citation.sourceTitle}", placeholder="Title", class="form-control", style="width:85%; margin: auto;")
-                            br
-                            input(type="text", name="sourceContainerTitle", value="#{citation.sourceContainerTitle}", placeholder="Website title", class="form-control", style="width:85%; margin: auto;")
-                            br
-                            input(type="text", name="sourcePublisher", placeholder="Publisher / Sponsor", class="form-control", style="width:85%; margin: auto;")
-                            br
-                            input(type="text", name="sourcePublicationDate", placeholder="Publication date", class="form-control", style="width:85%; margin: auto;")
-                            br
+                            div(class="form-group")
+                                input(aria-describedby="sourceAuthorHelp", type="text", name="sourceAuthor", value="#{citation.sourceAuthor}", placeholder="Author", class="form-control", style="width:85%; margin: auto;")
+                                small(id="sourceAuthorHelp" class="form-text text-muted") Last name, first name MI
+                            div(class="form-group")
+                                input(aria-describedby="sourceTitleHelp", type="text", name="sourceTitle", value="#{citation.sourceTitle}", placeholder="Title", class="form-control", style="width:85%; margin: auto;")
+                                small(id="sourceTitleHelp" class="form-text text-muted") Article name, book name, etc.
+                            div(class="form-group")
+                                input(aria-describedby="sourceContainerHelp", type="text", name="sourceContainerTitle", value="#{citation.sourceContainerTitle}", placeholder="Website title", class="form-control", style="width:85%; margin: auto;")
+                                small(id="sourceContainerHelp" class="form-text text-muted") Website name, journal name, etc.
+                            div(class="form-group")
+                                input(aria-describedby="sourcePublisherHelp", type="text", name="sourcePublisher", value="#{citation.sourcePublisher}", placeholder="Publisher / Sponsor", class="form-control", style="width:85%; margin: auto;")
+                                small(id="sourcePublisherHelp" class="form-text text-muted") Company name, sponsor name, etc.
+                            div(class="form-group")
+                                input(aria-describedby="sourcePublicationDateHelp", type="text", name="sourcePublicationDate", value="#{citation.sourcePublicationDate}", placeholder="Publication date", class="form-control", style="width:85%; margin: auto;")
+                                small(id="sourcePublicationDateHelp" class="form-text text-muted") DD MON. YYYY or YYYY
                             button(type="submit", class="btn btn-primary", class="form-control", style="width:85%; margin: auto;") Finalize citation
                         //br
                         //form(action=".", method="get")
