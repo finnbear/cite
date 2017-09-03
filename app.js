@@ -38,10 +38,10 @@ app.use('/login', login);
 app.use('/logout', logout);
 
 // Trust proxy
-app.use(function(req, res, next) {
+/*app.use(function(req, res, next) {
     req.connection.proxySecure = true;
     next();
-});
+});*/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
