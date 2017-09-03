@@ -26,7 +26,7 @@ block content
                         form(action=".", method="get")
                             input(type="hidden", name="stage", value="final")
                             input(type="hidden", name="url", value="#{citation.url}")
-                            input(type="text", name="author", placeholder="Author", class="form-control", style="width:85%; margin: auto;")
+                            input(type="text", name="author", value="#{citation.sourceAuthor}", placeholder="Author", class="form-control", style="width:85%; margin: auto;")
                             br
                             input(type="text", name="sourceTitle", placeholder="Title", class="form-control", style="width:85%; margin: auto;")
                             br
