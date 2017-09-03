@@ -35,7 +35,8 @@ router.get('/', function(req, res, next) {
 
                             var processPage = function (page) {
                                 var dom = $(page);
-                                citation.sourceContainerTitle = dom.find("title").text();
+                                
+                                citation.sourceContainerTitle = dom.filter("title").text();
 
                                 res.render('index', {login: login, citation: citation});
                             };
