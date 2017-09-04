@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
                     var login = {id: loginId, name: loginName};
 
                     if (req.query.citation) {
-                        database.formatCitation(loginId, req.query.citation, function(citation) {
+                        database.getCitationFormatted(loginId, req.query.citation, function(citation) {
                             if (citation) {
                                 res.render('formatted', {login: login, citation: citation});
                             } else {
@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
                             }
                         });
                     } else {
-                        database.formatCitations(loginId, function(citations) {
+                        database.getCitationsFormatted(loginId, function(citations) {
                             if (citations) {
                                 res.render('formatted', {login: login, citations: citations});
                             } else {

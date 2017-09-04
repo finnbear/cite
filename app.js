@@ -14,8 +14,9 @@ database.init();
 
 var routeIndex = require('./routes/index');
 var routeLogIn = require('./routes/login');
-var routeLogOut = require('./routes/logout');
+var routeCite = require('./routes/cite');
 var routeFormatted = require('./routes/formatted');
+var routeLogOut = require('./routes/logout');
 
 var app = express();
 
@@ -36,8 +37,9 @@ app.use(session(config.session));
 
 app.use('/', routeIndex);
 app.use('/login', routeLogIn);
-app.use('/logout', routeLogOut);
+app.use('/cite', routeCite);
 app.use('/formatted', routeFormatted);
+app.use('/logout', routeLogOut);
 
 // Trust proxy
 /*app.use(function(req, res, next) {
