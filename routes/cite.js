@@ -128,7 +128,7 @@ router.get('/', function(req, res, next) {
                                         res.render('cite', {login: login, citation: citation});
                                     });
                                 }
-                            } else if (req.query.stage == "final" && req.query.sourceAuthor && req.query.sourceTitle && req.query.containerTitle && req.query.publisherTitle && req.query.sourcePublicationDate) {
+                            } else if (req.query.stage == "final") {
                                 database.createCitation(loginId, req.query.sourceUrl, req.query.sourceAuthor, req.query.sourceTitle, req.query.containerTitle, req.query.publisherTitle, req.query.sourcePublicationDate, function (citationId) {
                                     res.redirect('/formatted?citation=' + citationId);
                                 });
