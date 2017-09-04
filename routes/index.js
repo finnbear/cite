@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
                     database.formatCitations(loginId, 5, function(citations) {
                         var login = {id: loginId, name: name};
                         if (req.query.stage && req.query.sourceUrl) {
-                            var citation = {url: req.query.sourceUrl, valid: true, sourceAuthor: "", sourceTitle: "", sourceContainerTitle: "", sourcePublisherTitle: "", sourcePublicationDate: ""};
+                            var citation = {url: req.query.sourceUrl, valid: true, sourceAuthor: "", sourceTitle: "", containerTitle: "", publisherTitle: "", sourcePublicationDate: ""};
                             if (req.query.stage == "url") {
                                 var prefix = req.query.sourceUrl.match(/.*?:\/\//g);
                                 req.query.sourceUrl = req.query.sourceUrl.replace(/.*?:\/\//g, "");
