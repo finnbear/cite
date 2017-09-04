@@ -65,8 +65,18 @@ block content
                         option(value="school" disabled) School district account
                     br
                     button(type="submit", class="btn btn-primary", style="width:85%; margin: auto;") Log In
-    br
-    div(style="text-align: center;")
-        div(style="display: inline-block; max-width: 500px; padding: 15px 30px 30px; margin: auto; background-color: #ffffff; border: 1px solid rgba(0, 0, 0, 0.1);")
-            h5(style="margin-bottom: 20px;") Why use Cite?
-            p Cite is free, Ad-free, and open source. It is constantly being improved to help you organize all of your citations
+    if login == null
+        br
+        div(style="text-align: center;")
+            div(style="display: inline-block; max-width: 500px; padding: 15px 30px 30px; margin: auto; background-color: #ffffff; border: 1px solid rgba(0, 0, 0, 0.1);")
+                h5(style="margin-bottom: 20px;") Why use Cite?
+                p Cite is free, Ad-free, and open source. It is constantly being improved to help you organize all of your citations
+    if citations && citations.length > 0
+        br
+        div(style="text-align: center;")
+            div(style="display: inline-block; max-width: 500px; padding: 15px 30px 30px; margin: auto; background-color: #ffffff; border: 1px solid rgba(0, 0, 0, 0.1);")
+                h5(style="margin-bottom: 20px;") My recent citations
+                hr
+                each citation in citations
+                    small(style="font-family: TimesNewRoman; font-size: 12px; font-style: normal; font-variant: normal;")!= citation.text
+                    hr
