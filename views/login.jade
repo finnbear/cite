@@ -4,18 +4,31 @@ block content
     br
     div(style="text-align: center;")
         div(style="display: inline-block; max-width: 500px; padding: 15px 30px 30px; margin: auto; background-color: #ffffff; border: 1px solid rgba(0, 0, 0, 0.1);")
-            h4(style="margin-bottom: 20px;") Log In
+            h4(id="loginHeading", style="margin-bottom: 20px;") Log In
             form(action="/login", method="post")
                 input(type="text", name="name", class="form-control", placeholder="Username", style="width:85%; margin: auto;")
                 br
                 input(type="password", name="password", class="form-control", placeholder="Password", style="width:85%; margin: auto;")
                 br
-                select(class="form-control custom-select", name="account", style="width:85%; margin: auto; display: inherit;")
+                select(class="form-control custom-select", name="account", style="width:85%; margin: auto; display: inherit;", onchange="updateTerminology(this);")
                     option(value="existing") Existing account
                     option(value="new") New account
                     option(value="school" disabled) School district account
+                script(type="application/javascript").
+                    function updateTerminology(select) {
+                        var header = document.getElementById('loginHeading');
+                        var button = document.getElementById('loginSubmit');
+
+                        if (select.value == "existing") {
+                            header.innerHTML = button.innerHTML = "Log in";
+                        } else if (select.value == "new") {
+                            header.innerHTML = "New account";
+                            button.innerHTML = "Sign up";
+                        }
+                    }
+
                 br
-                button(type="submit", class="btn btn-primary", style="width:85%; margin: auto;") Log In
+                button(type="submit", id="loginSubmit", class="btn btn-primary", style="width:85%; margin: auto;") Log In
     br
     div(style="text-align: center;")
         div(style="display: inline-block; width: 282px; padding: 15px 30px 5px; margin: auto; background-color: #ffffff; border: 1px solid rgba(0, 0, 0, 0.1);")
