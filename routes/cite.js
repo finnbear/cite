@@ -80,12 +80,18 @@ router.get('/', function(req, res, next) {
                                     citation.sourceAuthor = dom.filter("meta[name=author]").attr("content") || "";
 
                                     var domTitle = dom.filter("title").text();
-                                    var titleSimilarity = similarity(domTitle, options.host.replace("www", "").replace(".com", "").replace(".org", "").replace(".edu", ""));
-                                    console.log(titleSimilarity);
-                                    if (titleSimilarity >= 0.30) {
-                                        citation.containerTitle = domTitle;
+
+                                    if (domTitle.indexOf('302') == -1) {
+                                        var titleSimilarity = similarity(domTitle, options.host.replace("www", "").replace(".com", "").replace(".org", "").replace(".edu", ""));
+                                        console.log(titleSimilarity);
+                                        if (titleSimilarity >= 0.30) {
+                                            citation.containerTitle = domTitle;
+                                        } else {
+                                            citation.sourceTitle = domTitle;
+                                        }
                                     } else {
-                                        citation.sourceTitle = domTitle;
+                                        citation.valid = false;
+                                        citation.error = "redirect";
                                     }
 
                                     res.render('cite', {login: login, citation: citation});

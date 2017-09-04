@@ -15,7 +15,8 @@ block content
                         input(disabled, type="text", name="url", class="form-control form-control-warning",  placeholder="Url", value="#{citation.url}", style="width:85%; margin: auto; border-color: #d9534f; padding-right: 2.25rem; background-repeat: no-repeat; background-position: center right .5625rem; background-size: 1.125rem 1.125rem; background-image: url(\"data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23d9534f' viewBox='-2 -2 7 7'%3E%3Cpath stroke='%23d9534f' d='M0 0l3 3m0-3L0 3'/%3E%3Ccircle r='.5'/%3E%3Ccircle cx='3' r='.5'/%3E%3Ccircle cy='3' r='.5'/%3E%3Ccircle cx='3' cy='3' r='.5'/%3E%3C/svg%3E\");")
                         if citation.error == "loadurl"
                             small(class="form-text text-muted") Couldn't load page, #[a(href=".") reset URL].
-
+                        else if citation.error == "redirect"
+                            small(class="form-text text-muted") Page redirected, #[a(href=".") reset URL].
                 form(action="/cite", method="get")
                     input(type="hidden", name="stage", value="final")
                     input(type="hidden", name="sourceUrl", value="#{citation.url}")
