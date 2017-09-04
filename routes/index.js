@@ -19,14 +19,15 @@ router.get('/', function(req, res, next) {
                     database.formatCitations(loginId, 5, function(citations) {
                         var login = {id: loginId, name: name};
                         if (req.query.stage && req.query.sourceUrl) {
-                            var citation = {url: req.query.sourceUrl, valid: true};
+                            var citation = {url: req.query.sourceUrl, valid: true, sourceAuthor: "", sourceTitle: "", sourceContainerTitle: "", sourcePublisherTitle: "", sourcePublicationDate: ""};
                             if (req.query.stage == "url") {
                                 var prefix = req.query.sourceUrl.match(/.*?:\/\//g);
                                 req.query.sourceUrl = req.query.sourceUrl.replace(/.*?:\/\//g, "");
 
                                 var options = {
                                     host: req.query.sourceUrl.substring(0, req.query.sourceUrl.indexOf('/')),
-                                    path: req.query.sourceUrl.substring(req.query.sourceUrl.indexOf('/'))
+                                    path: req.query.sourceUrl.substring(req.query.sourceUrl.indexOf('/')),
+                                    timeout: 5000
                                 };
 
                                 if (options.host == "") {
@@ -85,14 +86,9 @@ router.get('/', function(req, res, next) {
                                     console.log(titleSimilarity);
                                     if (titleSimilarity >= 0.30) {
                                         citation.containerTitle = domTitle;
-                                        citation.sourceTitle = "";
                                     } else {
-                                        citation.containerTitle = "";
                                         citation.sourceTitle = domTitle;
                                     }
-
-                                    citation.publisherTitle = "";
-                                    citation.sourcePublicationDate = "";
 
                                     res.render('index', {login: login, citation: citation});
                                 };
@@ -104,9 +100,9 @@ router.get('/', function(req, res, next) {
                                         data += chunk;
                                     });
 
-                                    result.on("end", function (chunk) {
+                                    result.on("end", function() {
                                         processPage(data);
-                                    })
+                                    });
                                 };
 
                                 if (prefix !== undefined && prefix !== null && prefix[0] === "https://") {
@@ -117,6 +113,9 @@ router.get('/', function(req, res, next) {
                                         citation.valid = false;
                                         citation.error = "loadurl";
                                         res.render('index', {login: login, citation: citation});
+                                    }).on("timeout", function() {
+                                        citation.error = "loadurl";
+                                        res.render('index', {login: login, citation: citation});
                                     });
                                 } else {
                                     options.port = 80;
@@ -124,6 +123,9 @@ router.get('/', function(req, res, next) {
                                         processResult(result);
                                     }).on('error', function (e) {
                                         citation.valid = false;
+                                        citation.error = "loadurl";
+                                        res.render('index', {login: login, citation: citation});
+                                    }).on("timeout", function() {
                                         citation.error = "loadurl";
                                         res.render('index', {login: login, citation: citation});
                                     });
