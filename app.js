@@ -12,9 +12,10 @@ config.load();
 var database = require('database');
 database.init();
 
-var index = require('./routes/index');
-var login = require('./routes/login');
-var logout = require('./routes/logout');
+var routeIndex = require('./routes/index');
+var routeLogIn = require('./routes/login');
+var routeLogOut = require('./routes/logout');
+var routeFormatted = require('./routes/formatted');
 
 var app = express();
 
@@ -33,9 +34,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session(config.session));
 
-app.use('/', index);
-app.use('/login', login);
-app.use('/logout', logout);
+app.use('/', routeIndex);
+app.use('/login', routeLogIn);
+app.use('/logout', routeLogOut);
+app.use('/formatted', routeFormatted);
 
 // Trust proxy
 /*app.use(function(req, res, next) {

@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    br
+    div(style="text-align: center;")
+            div(style="display: inline-block; width: 282px; padding: 15px 30px 30px; margin: auto; background-color: #ffffff; border: 1px solid rgba(0, 0, 0, 0.1);")
+                if citation
+                    h4(style="margin-bottom: 20px;") Formatted citation
+                    p(style="font-family: TimesNewRoman; font-size: 12px; font-style: normal; font-variant: normal;")!= citation
+                else if citations
+                    h4(style="margin-bottom: 20px;") Formatted citations
+                    hr
+                    each citation in citations
+                        small(style="font-family: TimesNewRoman; font-size: 12px; font-style: normal; font-variant: normal;")!= citation
+                        hr
+                form(action=".", method="get")
+                    button(type="submit", class="btn btn-primary", style="width:85%; margin: auto;") Back

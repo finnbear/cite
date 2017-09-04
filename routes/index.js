@@ -16,7 +16,7 @@ router.get('/', function(req, res, next) {
         database.checkSession(req.session.session, function(loginId) {
             if (loginId) {
                 database.getLoginName(loginId, function(name) {
-                    database.formatCitations(loginId, 5, function(citations) {
+                    database.formatCitations(loginId, function(citations) {
                         var login = {id: loginId, name: name};
                         if (req.query.stage && req.query.sourceUrl) {
                             var citation = {url: req.query.sourceUrl, valid: true, sourceAuthor: "", sourceTitle: "", containerTitle: "", publisherTitle: "", sourcePublicationDate: ""};
@@ -132,11 +132,7 @@ router.get('/', function(req, res, next) {
                                 }
                             } else if (req.query.stage == "final" && req.query.sourceAuthor && req.query.sourceTitle && req.query.containerTitle && req.query.publisherTitle && req.query.sourcePublicationDate) {
                                 database.createCitation(loginId, req.query.sourceUrl, req.query.sourceAuthor, req.query.sourceTitle, req.query.containerTitle, req.query.publisherTitle, req.query.sourcePublicationDate, function (citationId) {
-                                    database.formatCitation(citationId, function (citationText) {
-                                        citation.text = citationText;
-
-                                        res.render('index', {login: login, citation: citation, citations: citations});
-                                    });
+                                    res.redirect('/formatted?citation=' + citationId);
                                 });
                             }
                         } else {
