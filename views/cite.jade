@@ -14,9 +14,9 @@ block content
                     div(class="form-group has-warning")
                         input(disabled, type="text", name="url", class="form-control form-control-warning",  placeholder="Url", value="#{citation.url}", style="width:85%; margin: auto; border-color: #d9534f; padding-right: 2.25rem; background-repeat: no-repeat; background-position: center right .5625rem; background-size: 1.125rem 1.125rem; background-image: url(\"data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23d9534f' viewBox='-2 -2 7 7'%3E%3Cpath stroke='%23d9534f' d='M0 0l3 3m0-3L0 3'/%3E%3Ccircle r='.5'/%3E%3Ccircle cx='3' r='.5'/%3E%3Ccircle cy='3' r='.5'/%3E%3Ccircle cx='3' cy='3' r='.5'/%3E%3C/svg%3E\");")
                         if citation.error == "loadurl"
-                            small(class="form-text text-muted") Couldn't load page, #[a(href=".") reset URL].
+                            small(class="form-text text-muted") Couldn't load page, #[a(href="/cite") reset URL].
                         else if citation.error == "redirect"
-                            small(class="form-text text-muted") Page redirected, #[a(href=".") reset URL].
+                            small(class="form-text text-muted") Page redirected, #[a(href="./cite") reset URL].
                 form(action="/cite", method="get")
                     input(type="hidden", name="stage", value="final")
                     input(type="hidden", name="sourceUrl", value="#{citation.url}")
@@ -45,9 +45,11 @@ block content
     if citations && citations.length > 0
         br
         div(style="text-align: center;")
-            div(style="display: inline-block; width: 282px; padding: 15px 30px 15px; margin: auto; background-color: #ffffff; border: 1px solid rgba(0, 0, 0, 0.1);")
+            div(style="display: inline-block; width: 282px; padding: 15px 30px 10px; margin: auto; background-color: #ffffff; border: 1px solid rgba(0, 0, 0, 0.1);")
                 h5(style="margin-bottom: 20px;") My recent citations
                 hr
                 each citation in citations.slice(0, 5)
                     a(href="/formatted?citation=#{citation.id}")= (citation.sourceTitle ? citation.sourceTitle : citation.sourceUrl)
                     hr
+                if citations.length > 5
+                    h5 #[a(href="/formatted", style="color: #000;") View all]
