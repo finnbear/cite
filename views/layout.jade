@@ -14,4 +14,7 @@ html
         block content
         if login
             div(style="width: 100%; bottom: 0px; text-align: center;")
-                small(class="text-muted") Logged in as #{login.name} - #[a(href="/logout") Logout]
+                if profile
+                    small(class="text-muted") Logged in as #{login.name} - #[a(href="/logout") Logout]
+                else
+                    small(class="text-muted") Logged in as #{login.name} - #[a(href="/profile") Profile] - #[a(href="/logout") Logout]

@@ -1,0 +1,17 @@
+extends layout
+
+block content
+    br
+    div(style="text-align: center;")
+            div(style="display: inline-block; width: 282px; padding: 15px 30px 25px; margin: auto; background-color: #ffffff; border: 1px solid rgba(0, 0, 0, 0.1);")
+                if profile
+                    h4(style="margin-bottom: 20px;") Profile
+                    br
+                    p=(profile.priviledge == 1 ? "Administrator" : "Standard user")
+                    br
+                    p(class="text-muted") This feature is work-in-progress.
+                    br
+                else
+                    h4(style="margin-bottom: 20px;") Access denied
+                form(action="/cite", method="get")
+                    button(type="submit", class="btn btn-primary", style="width:85%; margin: auto;") Back
