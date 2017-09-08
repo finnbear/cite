@@ -81,10 +81,19 @@ router.get('/', function(req, res, next) {
 
                                     var domTitle = dom.filter("title").text();
 
-                                    if (domTitle.indexOf('302') == -1) {
+                                    if (domTitle.indexOf('302') == -1 && domTitle.indexOf('Moved Temporarily') == -1) {
                                         var titleSimilarity = similarity(domTitle, options.host.replace("www", "").replace(".com", "").replace(".org", "").replace(".edu", ""));
-                                        console.log(titleSimilarity);
-                                        if (titleSimilarity >= 0.30) {
+
+                                        var hyphenSeparatorSegments = domTitle.split('-');
+                                        var pipeSeparatorSegments = domTitle.split('|');
+
+                                        if (hyphenSeparatorSegments.length > 1) {
+                                            citation.sourceTitle = hyphenSeparatorSegments[0];
+                                            citation.containerTitle = hyphenSeparatorSegments[1];
+                                        } else if (pipeSeparatorSegments.length > 1) {
+                                            citation.sourceTitle = pipeSeparatorSegments[0];
+                                            citation.containerTitle = pipeSeparatorSegments[1];
+                                        } else if (titleSimilarity >= 0.30) {
                                             citation.containerTitle = domTitle;
                                         } else {
                                             citation.sourceTitle = domTitle;
