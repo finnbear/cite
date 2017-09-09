@@ -9,5 +9,12 @@ table(class="table-borderless", style="width:100%; text-align: left;")
         td=profile.citationCount
     tr
         td
+            strong Referrals
+        if login.id == profile.id
+            td!="<a href='/referral'>" + profile.referralRecipientCount + " out of " + profile.referralCount + "</a>"
+        else
+            td=profile.referralRecipientCount + " out of " + profile.referralCount
+    tr
+        td
             strong Type
         td!=(profile.priviledge == 1 ? "<a href='/admin'>Administrator</a>" : "Standard user")

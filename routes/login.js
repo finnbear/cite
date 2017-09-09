@@ -20,12 +20,12 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
     if (req.body.name && req.body.password && req.body.account) {
-        if (req.body.account === "new") {
+        if (req.body.account === "new" || req.body.account === "referral") {
             database.checkLogin(req.body.name, null, function(loginId) {
                 if (loginId) {
                     res.redirect('/login?error=exists');
                 } else {
-                    database.createLogin(req.body.name, req.body.password, function(loginId) {
+                    database.createLogin(req.body.name, req.body.password, req.body.referralCode, function(loginId) {
                         database.createSession(loginId, function(session) {
                             req.session.session = session;
                             res.redirect('/cite');
