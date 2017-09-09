@@ -19,7 +19,7 @@ block content
                         tr
                             td
                                 strong Type
-                            td=(profile.priviledge == 1 ? "Administrator" : "Standard user)")
+                            td!=(profile.priviledge == 1 ? "<a href='/admin'>Administrator</a>" : "Standard user")
                     hr
                 else
                     h4(style="margin-bottom: 20px;") Access denied
