@@ -17,6 +17,7 @@ var routeLogIn = require('./routes/login');
 var routeCite = require('./routes/cite');
 var routeFormatted = require('./routes/formatted');
 var routeProfile = require('./routes/profile');
+var routeAdmin = require('./routes/admin');
 var routeLogOut = require('./routes/logout');
 
 var app = express();
@@ -41,6 +42,7 @@ app.use('/login', routeLogIn);
 app.use('/cite', routeCite);
 app.use('/formatted', routeFormatted);
 app.use('/profile', routeProfile);
+app.user('/admin', routeAdmin);
 app.use('/logout', routeLogOut);
 
 // Trust proxy
