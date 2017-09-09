@@ -1,0 +1,13 @@
+table(class="table-borderless", style="width:100%; text-align: left;")
+    tr
+        td
+            strong Name
+        td=profile.name
+    tr
+        td
+            strong Citations
+        td=profile.citationCount
+    tr
+        td
+            strong Type
+        td!=(profile.priviledge == 1 ? "<a href='/admin'>Administrator</a>" : "Standard user")

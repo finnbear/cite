@@ -7,13 +7,13 @@ block content
                 if citation
                     h4(style="margin-bottom: 20px;") Formatted citation
                     hr
-                    p(style="font-family: TimesNewRoman; font-size: 12px; font-style: normal; font-variant: normal; word-wrap: break-word;")!= citation
+                    include templatecitation.jade
                     hr
                 else if citations
                     h4(style="margin-bottom: 20px;") Formatted citations
                     hr
                     each citation in citations
-                        small(style="font-family: TimesNewRoman; font-size: 12px; font-style: normal; font-variant: normal; word-wrap: break-word;")!= citation
+                        include templatecitation.jade
                         hr
                 form(action="/cite", method="get")
                     button(type="submit", class="btn btn-primary", style="width:85%; margin: auto;") Back
