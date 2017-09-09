@@ -79,6 +79,14 @@ router.get('/', function(req, res, next) {
 
                                     citation.sourceAuthor = dom.filter("meta[name=author]").attr("content") || "";
 
+                                    if (citation.sourceAuthor.indexOf(',') != -1 && citation.sourceAuthor.toLowerCase().indexOf('and') == -1) {
+                                        var authorSegments = citation.sourceAuthor.split(' ');
+
+                                        if (authorSegments[1].indexOf(',') != -1) {
+                                            citation.sourceAuthor = authorSegments[0] + " " + authorSegments[1].replace(',', ' ');
+                                        }
+                                    }
+
                                     var domTitle = dom.filter("title").text();
 
                                     if (domTitle.indexOf('302') == -1 && domTitle.indexOf('Moved Temporarily') == -1) {
