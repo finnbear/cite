@@ -42,7 +42,7 @@ app.use('/login', routeLogIn);
 app.use('/cite', routeCite);
 app.use('/formatted', routeFormatted);
 app.use('/profile', routeProfile);
-app.user('/admin', routeAdmin);
+app.use('/admin', routeAdmin);
 app.use('/logout', routeLogOut);
 
 // Trust proxy
