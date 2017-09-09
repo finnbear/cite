@@ -7,8 +7,19 @@ block content
                 if profile
                     h3(style="margin-bottom: 20px;") Profile
                     hr
-                    p=(profile.priviledge == 1 ? "Administrator" : "Standard user")
-                    p=profile.citationCount+(profile.citationCount == 1 ? " Citation" : " Citations")
+                    table(class="table-borderless", style="width:100%; text-align: left;")
+                        tr
+                            td
+                                strong Name
+                            td=profile.name
+                        tr
+                            td
+                                strong Citations
+                            td=profile.citationCount
+                        tr
+                            td
+                                strong Type
+                            td=(profile.priviledge == 1 ? "Administrator" : "Standard user)")
                     hr
                 else
                     h4(style="margin-bottom: 20px;") Access denied
