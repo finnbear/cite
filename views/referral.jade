@@ -5,6 +5,7 @@ block content
     div(style="text-align: center;")
             div(style="display: inline-block; width: 282px; padding: 15px 30px 25px; margin: auto; background-color: #ffffff; border: 1px solid rgba(0, 0, 0, 0.1);")
                 h3(style="margin-bottom: 20px;") New referral
+                hr
                 table(class="table-borderless", style="width:100%; text-align: left;")
                     tr
                         td
@@ -13,12 +14,17 @@ block content
                     tr
                         td
                             strong Link
-                        td https://cite.softbear.com/login?referral=#{referralCode}
+                        td
+                            a(href="#" onclick="alert('https://cite.softbear.com/login?referral=#{referralCode}')") Click here
                     tr
                         td
                             strong Email
                         td
                             a(href="mailto:?subject=Automatic MLA Citation Maker&body=Hi,%0D%0AI think you might like to use https://cite.softbear.com/login?referral=#{referralCode} for making MLA citations. It doesn't have ads like the other sites.") Click here
-                br
+                    tr
+                        td
+                            strong Expiration
+                        td 48 hours
+                hr
                 form(action="/profile", method="get")
                     button(type="submit", class="btn btn-primary", style="width:85%; margin: auto;") Back
