@@ -22,13 +22,21 @@ block content
                     function onSearch(e) {
                         var search = e.target.value.toLowerCase();
 
+                        var total = 0;
                         for (var p = 0; p < profiles.length; p++) {
                             var profile = profiles[p];
 
                             var value = profile.textContent.toLowerCase();
 
-                            profile.style.display = value.indexOf(search) == -1 ? 'none' : 'initial';
+                            if (value.indexOf(search) == -1 || total >= 5) {
+                                profile.style.display = 'none';
+                            } else {
+                                profile.style.display = 'initial';
+                                total += 1;
+                            }
                         }
                     }
+
+                    onSearch({target: input});
                 form(action="/profile", method="get")
                     button(type="submit", class="btn btn-primary", style="width:85%; margin: auto;") Back
