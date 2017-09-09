@@ -13,7 +13,7 @@ block content
                 div(id="referralInput")
                     input(type="text", name="referralCode", maxLength=6 class="form-control", placeholder="Referral code", style="width:85%; margin: auto;")
                     br
-                select(class="form-control custom-select", name="account", style="width:85%; margin: auto; display: inherit;", onchange="updateTerminology(this);")
+                select(class="form-control custom-select", name="account", style="width:85%; margin: auto; display: inherit;", onchange="updateTerminology();")
                     option(value="existing") Existing account
                     option(value="new") New account
                     option(value="referral") New account (referral)
@@ -21,16 +21,22 @@ block content
                 br
                 button(type="submit", id="loginSubmit", class="btn btn-primary", style="width:85%; margin: auto;") Log In
                 script(type="application/javascript").
+                    var select = document.getElementsByName("account")[0];
                     var header = document.getElementById('loginHeading');
                     var button = document.getElementById('loginSubmit');
                     var referral = document.getElementById('referralInput');
                     var referralInput = document.getElementsByName('referralCode')[0];
 
+                    if ("#{referralCode}") {
+                        select.value = "referral";
+                        referralInput.value = "#{referralCode}";
+                    }
+
                     referralInput.oninput = function() {
                         referralInput.value = referralInput.value.toUpperCase().replace(/\W/g, '');
                     };
 
-                    function updateTerminology(select) {
+                    function updateTerminology() {
                         if (select.value == "existing") {
                             header.innerHTML = button.innerHTML = "Log in";
                         } else if (select.value == "new" || select.value == "referral") {
@@ -45,7 +51,7 @@ block content
                         }
                     }
 
-                    updateTerminology(document.getElementsByName("account")[0]);
+                    updateTerminology();
     br
     div(style="text-align: center;")
         div(style="display: inline-block; width: 282px; padding: 15px 30px 5px; margin: auto; background-color: #ffffff; border: 1px solid rgba(0, 0, 0, 0.1);")

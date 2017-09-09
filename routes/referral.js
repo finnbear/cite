@@ -7,14 +7,12 @@ router.get('/', function(req, res, next) {
     if (req.session.session) {
         database.checkSession(req.session.session, function(loginId) {
             if (loginId) {
-                database.getLogin(loginId, function(login) {
-                    if (login.priviledge >= 1) {
-                        database.getLogins(function(profiles) {
-                            res.render('admin', {login: login, profiles: profiles});
-                        });
-                    } else {
-                        res.redirect('/profile');
-                    }
+                database.getLoginName(loginId, function(loginName) {
+                    var login = {id: loginId, name: loginName};
+
+                    database.createReferral(loginId, function(referralCode) {
+                        res.render('referral', {login: login, referralCode: referralCode});
+                    });
                 });
             } else {
                 req.session.reset();

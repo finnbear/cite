@@ -4,12 +4,21 @@ block content
     br
     div(style="text-align: center;")
             div(style="display: inline-block; width: 282px; padding: 15px 30px 25px; margin: auto; background-color: #ffffff; border: 1px solid rgba(0, 0, 0, 0.1);")
-                if profile
-                    h3(style="margin-bottom: 20px;") Profile
-                    hr
-                    include templateprofile
-                    hr
-                else
-                    h4(style="margin-bottom: 20px;") Access denied
-                form(action="/cite", method="get")
+                h3(style="margin-bottom: 20px;") New referral
+                table(class="table-borderless", style="width:100%; text-align: left;")
+                    tr
+                        td
+                            strong Code
+                        td=referralCode
+                    tr
+                        td
+                            strong Link
+                        td https://cite.softbear.com/login?referral=#{referralCode}
+                    tr
+                        td
+                            strong Email
+                        td
+                            a(href="mailto:?subject=Automatic MLA Citation Maker&body=Hi,%0D%0AI think you might like to use https://cite.softbear.com/login?referral=#{referralCode} for making MLA citations. It doesn't have ads like the other sites.") Click here
+                br
+                form(action="/profile", method="get")
                     button(type="submit", class="btn btn-primary", style="width:85%; margin: auto;") Back

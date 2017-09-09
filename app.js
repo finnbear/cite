@@ -17,6 +17,7 @@ var routeLogIn = require('./routes/login');
 var routeCite = require('./routes/cite');
 var routeFormatted = require('./routes/formatted');
 var routeProfile = require('./routes/profile');
+var routeReferral = require('./routes/referral');
 var routeAdmin = require('./routes/admin');
 var routeLogOut = require('./routes/logout');
 
@@ -42,6 +43,7 @@ app.use('/login', routeLogIn);
 app.use('/cite', routeCite);
 app.use('/formatted', routeFormatted);
 app.use('/profile', routeProfile);
+app.use('/referral', routeReferral);
 app.use('/admin', routeAdmin);
 app.use('/logout', routeLogOut);
 

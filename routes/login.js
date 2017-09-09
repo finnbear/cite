@@ -14,7 +14,7 @@ router.get('/', function(req, res, next) {
             }
         });
     } else {
-        res.render('login', {error: req.query.error});
+        res.render('login', {referralCode: req.query.referral, error: req.query.error});
     }
 });
 
