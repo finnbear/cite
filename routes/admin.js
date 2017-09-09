@@ -9,8 +9,8 @@ router.get('/', function(req, res, next) {
             if (loginId) {
                 database.getLogin(loginId, function(login) {
                     if (login.priviledge >= 1) {
-                        database.getLogins(function(logins) {
-                            res.render('admin', {login: login, logins: logins});
+                        database.getLogins(function(profiles) {
+                            res.render('admin', {login: login, profiles: profiles});
                         });
                     } else {
                         res.redirect('/profile');
