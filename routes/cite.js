@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
                         if (req.query.stage && req.query.sourceUrl) {
                             var citation = {url: req.query.sourceUrl, valid: true, sourceAuthor: "", sourceTitle: "", containerTitle: "", publisherTitle: "", sourcePublicationDate: ""};
                             if (req.query.stage == "url") {
-                                citation.sourceType = req.query.sourceType;
+                                citation.sourceType = req.query.sourceType.trim();
 
                                 var prefix = req.query.sourceUrl.match(/.*?:\/\//g);
                                 req.query.sourceUrl = req.query.sourceUrl.replace(/.*?:\/\//g, "");
@@ -79,10 +79,10 @@ router.get('/', function(req, res, next) {
 
                                     var dom = $(page);
 
-                                    citation.sourceAuthor = dom.filter("meta[name=author]").attr("content") || "";
+                                    citation.sourceAuthor = (dom.filter("meta[name=author]").attr("content") || "").trim();
 
                                     if (citation.sourceAuthor.indexOf(',') != -1 && citation.sourceAuthor.toLowerCase().indexOf('and') == -1) {
-                                        var authorSegments = citation.sourceAuthor.split(' ');
+                                        var authorSegments = citation.sourceAuthor.trim().split(' ');
 
                                         if (authorSegments[1].indexOf(',') != -1) {
                                             citation.sourceAuthor = authorSegments[0] + " " + authorSegments[1].replace(',', ' ');
@@ -98,15 +98,15 @@ router.get('/', function(req, res, next) {
                                         var pipeSeparatorSegments = domTitle.split('|');
 
                                         if (hyphenSeparatorSegments.length > 1) {
-                                            citation.sourceTitle = hyphenSeparatorSegments[0];
-                                            citation.containerTitle = hyphenSeparatorSegments[1];
+                                            citation.sourceTitle = hyphenSeparatorSegments[0].trim();
+                                            citation.containerTitle = hyphenSeparatorSegments[1].trim();
                                         } else if (pipeSeparatorSegments.length > 1) {
-                                            citation.sourceTitle = pipeSeparatorSegments[0];
-                                            citation.containerTitle = pipeSeparatorSegments[1];
+                                            citation.sourceTitle = pipeSeparatorSegments[0].trim();
+                                            citation.containerTitle = pipeSeparatorSegments[1].trim();
                                         } else if (titleSimilarity >= 0.30) {
-                                            citation.containerTitle = domTitle;
+                                            citation.containerTitle = domTitle.trim();
                                         } else {
-                                            citation.sourceTitle = domTitle;
+                                            citation.sourceTitle = domTitle.trim();
                                         }
                                     } else {
                                         citation.valid = false;
