@@ -28,14 +28,14 @@ block content
                         input(aria-describedby="sourceTitleHelp", type="text", name="sourceTitle", value="#{citation.sourceTitle}", placeholder="Title", class="form-control", style="width:85%; margin: auto;")
                         small(id="sourceTitleHelp" class="form-text text-muted") Article name, book name, etc.
                     div(class="form-group")
-                        input(aria-describedby="containerTitleHelp", type="text", name="containerTitle", value="#{citation.containerTitle}", placeholder="Website title", class="form-control", style="width:85%; margin: auto;")
-                        small(id="containerTitleHelp" class="form-text text-muted") Website name, journal name, etc.
+                        input(aria-describedby="containerTitleHelp", type="text", name="containerTitle", value="#{citation.containerTitle}", placeholder=(citation.sourceType == "book" ? "Collection title" : "Website title"), class="form-control", style="width:85%; margin: auto;")
+                        small(id="containerTitleHelp" class="form-text text-muted")= (citation.sourceType == "book" ? "Collection name" : "Website name") + ", journal name, etc."
                     div(class="form-group")
                         input(aria-describedby="publisherTitleHelp", type="text", name="publisherTitle", value="#{citation.publisherTitle}", placeholder="Publisher / Sponsor", class="form-control", style="width:85%; margin: auto;")
-                        small(id="publisherTitleHelp" class="form-text text-muted") Company name, sponsor name, etc.
+                        small(id="publisherTitleHelp" class="form-text text-muted")= "Company name, " + (citation.sourceType == "book" ? "publisher" : "sponsor") + " name, etc."
                     div(class="form-group")
                         input(aria-describedby="sourcePublicationDateHelp", type="text", name="sourcePublicationDate", value="#{citation.sourcePublicationDate}", placeholder="Publication date", class="form-control", style="width:85%; margin: auto;")
-                        small(id="sourcePublicationDateHelp" class="form-text text-muted") DD MON. YYYY or YYYY
+                        small(id="sourcePublicationDateHelp" class="form-text text-muted") MM/DD/YYYY or YYYY
                     button(type="submit", class="btn btn-primary", class="form-control", style="width:85%; margin: auto;") Finalize citation
             else
                 form(action="/cite", method="get")
@@ -46,6 +46,8 @@ block content
                         select(aria-describedby="sourceTypeHelp", class="form-control custom-select", name="sourceType" style="width:85%; margin: auto;", onchange="updateType();")
                             option(value="website", selected) Website
                             option(value="book") Book
+                            //option(value="video") Video
+                            option(value="journal") Journal
                         //small(id="sourceTypeHelp", class="form-text text-muted")
                     button(type="submit", class="btn btn-primary", style="width:85%; margin: auto;") Create citation
     if citations && citations.length > 0
