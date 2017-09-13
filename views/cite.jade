@@ -20,6 +20,7 @@ block content
                 form(action="/cite", method="get")
                     input(type="hidden", name="stage", value="final")
                     input(type="hidden", name="sourceUrl", value="#{citation.url}")
+                    input(type="hidden", name="sourceType", value="#{citation.sourceType}")
                     div(class="form-group")
                         input(aria-describedby="sourceAuthorHelp", type="text", name="sourceAuthor", value="#{citation.sourceAuthor}", placeholder="Author", class="form-control", style="width:85%; margin: auto;")
                         small(id="sourceAuthorHelp" class="form-text text-muted") Last name, first name MI
@@ -39,8 +40,13 @@ block content
             else
                 form(action="/cite", method="get")
                     input(type="hidden", name="stage", value="url")
-                    input(type="text", name="sourceUrl", class="form-control", placeholder="Url", style="width:85%; margin: auto;")
-                    br
+                    div(class="form-group")
+                        input(type="text", name="sourceUrl", class="form-control", placeholder="Url", style="width:85%; margin: auto;")
+                    div(class="form-group")
+                        select(aria-describedby="sourceTypeHelp", class="form-control custom-select", name="sourceType" style="width:85%; margin: auto;", onchange="updateType();")
+                            option(value="website", selected) Website
+                            option(value="book") Book
+                        //small(id="sourceTypeHelp", class="form-text text-muted")
                     button(type="submit", class="btn btn-primary", style="width:85%; margin: auto;") Create citation
     if citations && citations.length > 0
         br
@@ -49,7 +55,7 @@ block content
                 h5(style="margin-bottom: 20px;") My recent citations
                 hr
                 each citation in citations.slice(0, 5)
-                    a(href="/formatted?citation=#{citation.id}")= (citation.sourceTitle ? citation.sourceTitle : citation.sourceUrl)
+                    a(href="/formatted?citation=#{citation.id}")!= (citation.sourceTitle ? (citation.sourceType == "book" ? "<i>" + citation.sourceTitle + "</i>" : citation.sourceTitle) : citation.sourceUrl)
                     hr
                 if citations.length > 5
                     h5 #[a(href="/formatted", style="color: #000;") View all]

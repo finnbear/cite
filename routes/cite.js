@@ -19,6 +19,8 @@ router.get('/', function(req, res, next) {
                         if (req.query.stage && req.query.sourceUrl) {
                             var citation = {url: req.query.sourceUrl, valid: true, sourceAuthor: "", sourceTitle: "", containerTitle: "", publisherTitle: "", sourcePublicationDate: ""};
                             if (req.query.stage == "url") {
+                                citation.sourceType = req.query.sourceType;
+
                                 var prefix = req.query.sourceUrl.match(/.*?:\/\//g);
                                 req.query.sourceUrl = req.query.sourceUrl.replace(/.*?:\/\//g, "");
 
@@ -152,7 +154,7 @@ router.get('/', function(req, res, next) {
                                     });
                                 }
                             } else if (req.query.stage == "final") {
-                                database.createCitation(loginId, req.query.sourceUrl, req.query.sourceAuthor, req.query.sourceTitle, req.query.containerTitle, req.query.publisherTitle, req.query.sourcePublicationDate, function (citationId) {
+                                database.createCitation(loginId, req.query.sourceUrl, req.query.sourceType, req.query.sourceAuthor, req.query.sourceTitle, req.query.containerTitle, req.query.publisherTitle, req.query.sourcePublicationDate, function (citationId) {
                                     res.redirect('/formatted?citation=' + citationId);
                                 });
                             }
